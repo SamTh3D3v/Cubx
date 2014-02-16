@@ -11,14 +11,28 @@ namespace Cbx
     /// </summary>
     public sealed partial class GamePage : SwapChainBackgroundPanel
     {
-        readonly Game1 _game;
+        readonly Cubix _game;
 
         public GamePage(LaunchActivatedEventArgs args)
         {
             this.InitializeComponent();
 
             // Create the game.
-            _game = XamlGame<Game1>.Create(args, Window.Current.CoreWindow, this);
+            _game = XamlGame<Cubix>.Create(args, Window.Current.CoreWindow, this);
+        }
+        // Launch a demo
+        public void LaunchDemo(string stateName)
+        {
+            _game.RunState(stateName);
+        }
+
+        // Return to menu
+        private void Image_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            _game.Pause();
+            var mainPage = App.MenuPage;
+            Window.Current.Content = mainPage;
+            Window.Current.Activate();
         }
     }
 }

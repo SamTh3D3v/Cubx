@@ -1,8 +1,8 @@
 ﻿using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
-
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=234227
+using Cbx.Pages;
 
 namespace Cbx
 {
@@ -11,10 +11,11 @@ namespace Cbx
     /// </summary>
     sealed partial class App : Application
     {
-        /// <summary>
-        /// Initializes the singleton application object.  This is the first line of authored code
-        /// executed, and as such is the logical equivalent of main() or WinMain().
-        /// </summary>
+        #region States
+
+        public static MenuPage MenuPage;
+        public static GamePage GamePage;
+        #endregion
         public App()
         {
             InitializeComponent();
@@ -29,23 +30,22 @@ namespace Cbx
         /// <param name="args">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
-            var gamePage = Window.Current.Content as GamePage;
+             
 
-            // Do not repeat app initialization when the Window already has content,
-            // just ensure that the window is active
-            if (gamePage == null)
+            if(MenuPage==null)
+                MenuPage=new MenuPage();
+           
+            if (GamePage == null)
             {
-                // Create a main GamePage
-                gamePage = new GamePage(args);
+
+                GamePage = new GamePage(args);
 
                 if (args.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
                     // TODO: Load state from previously suspended application
-                }
-
-                // Place the GamePage in the current Window
-                Window.Current.Content = gamePage;
+                }                
             }
+            Window.Current.Content = MenuPage;
 
             // Ensure the current window is active
             Window.Current.Activate();
